@@ -1,0 +1,143 @@
+#N canvas 0 0 1024 692 10;
+#X obj 101 101 cnv 15 148 148 empty empty empty 20 12 0 14 -261682
+-66577 0;
+#X obj 107 160 bng 30 250 50 0 \$0-startrecord empty Start_Recording
+0 -6 0 10 -3266 -257985 -3266;
+#X obj 109 209 bng 30 250 50 0 empty empty Stop_Recording 0 -6 0 10
+-239425 -4034 -239425;
+#X msg 297 199 start;
+#X msg 273 237 stop;
+#X symbolatom 106 126 22 0 0 2 record_filename - #0-filename;
+#X msg 388 311 open \$1;
+#X obj 445 318 inlet~;
+#X obj 388 234 symbol;
+#X obj 591 69 makefilename %s_pd.wav;
+#X obj 513 8 r \$0-date/time;
+#X obj 558 99 symbol;
+#X obj 513 125 pack s s;
+#X msg 513 152 \$1\$2;
+#X obj 513 175 symbol;
+#X obj 513 38 t s bang;
+#X obj 591 42 r \$0-filename;
+#X obj 295 21 t b b b;
+#X obj 295 -20 r \$0-startrecord;
+#N canvas 0 0 584 511 date/time 0;
+#X obj -202 20 inlet;
+#X obj -201 337 outlet;
+#X obj -106 126 time;
+#X obj -153 126 date;
+#X obj -200 310 symbol;
+#X obj -59 126 symbol .;
+#X obj -200 186 f;
+#X obj -200 263 pack f s f s f s f s f s f s;
+#X msg -199 285 \$1\$2\$3\$4\$5\$6\$7\$8\$9\$10\$11\$12;
+#X obj -200 49 trigger bang bang bang bang bang;
+#X obj 0 126 symbol _;
+#X connect 0 0 9 0;
+#X connect 2 0 7 6;
+#X connect 2 1 7 8;
+#X connect 2 2 7 10;
+#X connect 3 0 6 1;
+#X connect 3 1 7 2;
+#X connect 3 2 7 4;
+#X connect 4 0 1 0;
+#X connect 5 0 7 9;
+#X connect 5 0 7 7;
+#X connect 5 0 7 5;
+#X connect 5 0 7 3;
+#X connect 5 0 7 1;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 8 0 4 0;
+#X connect 9 0 6 0;
+#X connect 9 1 3 0;
+#X connect 9 2 2 0;
+#X connect 9 3 5 0;
+#X connect 9 4 10 0;
+#X connect 10 0 7 11;
+#X restore 363 83 pd date/time;
+#X obj 363 105 s \$0-date/time;
+#X obj 502 318 inlet~;
+#X obj 446 410 writesf~ 2;
+#X text 522 407 output entire mix;
+#X msg 151 63 \; outrecord start;
+#X msg 109 257 \; outrecord stop;
+#X msg 402 259 \; outrecord open \$1;
+#X obj 64 431 abs.writesf.1 bd \$0-date/time \$0-filename outrecord
+;
+#X obj 65 543 abs.writesf.2 rand-delay \$0-date/time \$0-filename outrecord
+;
+#X obj 64 489 abs.writesf.1 sd \$0-date/time \$0-filename outrecord
+;
+#X obj 65 514 abs.writesf.1 clicks \$0-date/time \$0-filename outrecord
+;
+#X obj 64 574 abs.writesf.1 live-g \$0-date/time \$0-filename outrecord
+;
+#X obj 67 603 abs.writesf.2 g-loops \$0-date/time \$0-filename outrecord
+;
+#X obj 68 634 abs.writesf.2 live-v \$0-date/time \$0-filename outrecord
+;
+#X obj 68 663 abs.writesf.2 v-loops \$0-date/time \$0-filename outrecord
+;
+#X obj 69 694 abs.writesf.2 step-fx \$0-date/time \$0-filename outrecord
+;
+#X obj 64 461 abs.writesf.1 genbd \$0-date/time \$0-filename outrecord
+;
+#X obj 67 404 abs.writesf.2 live-v-cln \$0-date/time \$0-filename outrecord
+;
+#N canvas 459 222 473 402 throws 0;
+#X obj -2 3 throw~ or_live-v-cln_l;
+#X obj -2 28 throw~ or_bd;
+#X obj -3 50 throw~ or_genbd;
+#X obj -3 73 throw~ or_sd;
+#X obj -2 98 throw~ or_clicks;
+#X obj -3 123 throw~ or_rand-delay_l;
+#X obj 135 122 throw~ or_rand-delay_r;
+#X obj 138 3 throw~ or_live-v-cln_r;
+#X obj -1 145 throw~ or_live-g;
+#X obj 123 171 throw~ or_g-loops_r;
+#X obj -1 172 throw~ or_g-loops_l;
+#X obj 123 197 throw~ or_live-v_r;
+#X obj -3 196 throw~ or_live-v_l;
+#X obj 120 221 throw~ or_v-loops_r;
+#X obj -2 221 throw~ or_v-loops_l;
+#X obj 122 244 throw~ or_step-fx_r;
+#X obj -4 244 throw~ or_step-fx_l;
+#X obj 329 70 switch~;
+#X obj 324 15 loadbang;
+#X msg 327 43 0;
+#X connect 18 0 19 0;
+#X connect 19 0 17 0;
+#X restore 688 232 pd throws;
+#X obj 48 39 loadbang;
+#X obj 49 69 symbol hello;
+#X obj 45 11 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X connect 2 0 4 0;
+#X connect 2 0 25 0;
+#X connect 3 0 22 0;
+#X connect 4 0 22 0;
+#X connect 6 0 22 0;
+#X connect 7 0 22 0;
+#X connect 8 0 6 0;
+#X connect 8 0 26 0;
+#X connect 9 0 11 1;
+#X connect 10 0 15 0;
+#X connect 11 0 12 1;
+#X connect 12 0 13 0;
+#X connect 13 0 14 0;
+#X connect 14 0 8 1;
+#X connect 15 0 12 0;
+#X connect 15 1 11 0;
+#X connect 16 0 9 0;
+#X connect 17 0 3 0;
+#X connect 17 0 24 0;
+#X connect 17 1 8 0;
+#X connect 17 2 19 0;
+#X connect 18 0 17 0;
+#X connect 19 0 20 0;
+#X connect 21 0 22 1;
+#X connect 39 0 40 0;
+#X connect 40 0 5 0;
+#X connect 41 0 39 0;
+#X coords 0 -1 1 1 150 150 1 100 100;
